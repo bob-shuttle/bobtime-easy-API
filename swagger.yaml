@@ -1,0 +1,12 @@
+openapi: 3.0.3
+info:
+  title: BobTimeEasy API
+  description: API for BobTimeEasy
+  version: 0.0.1
+tags:
+  - name: auth
+    description: 인증 관련 API
+  - name: dining
+    description: 식당 관련 API
+  - name: reservation
+    description: 식당 예약 API
