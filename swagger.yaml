@@ -10,3 +10,24 @@ tags:
     description: 식당 관련 API
   - name: reservation
     description: 식당 예약 API
+paths:
+  /auth/signup:
+    post:
+      description: 회원 가입
+      tags:
+        - auth
+      responses:
+        "201":
+          description: 회원 가입 성공
+          content:
+            application/x-www-urlencoded:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  name:
+                    type: string
+              examples:
+                data:
+                  value: ""
