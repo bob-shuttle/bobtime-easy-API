@@ -1,33 +1,209 @@
 openapi: 3.0.3
 info:
-  title: BobTimeEasy API
-  description: API for BobTimeEasy
-  version: 0.0.1
-tags:
-  - name: auth
-    description: 인증 관련 API
-  - name: dining
-    description: 식당 관련 API
-  - name: reservation
-    description: 식당 예약 API
+  version: 1.0.0
+  title: Dining API
 paths:
-  /auth/signup:
-    post:
-      description: 회원 가입
-      tags:
-        - auth
+  /dining:
+    get:
+      summary: Get all dining information
       responses:
-        "201":
-          description: 회원 가입 성공
-          content:
-            application/x-www-urlencoded:
-              schema:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                  name:
-                    type: string
-              examples:
-                data:
-                  value: ""
+        '200':
+          description: OK
+    post:
+      summary: Register a new dining
+      requestBody:
+        description: Dining information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dining'
+      responses:
+        '200':
+          description: OK
+  /dining/{id}:
+    get:
+      summary: Get information about a specific dining
+      parameters:
+        - name: id
+          in: path
+          description: Dining ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    patch:
+      summary: Update information for a specific dining
+      parameters:
+        - name: id
+          in: path
+          description: Dining ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated dining information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Dining'
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete a specific dining
+      parameters:
+        - name: id
+          in: path
+          description: Dining ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /dining/{id}/reservation:
+    get:
+      summary: Get reservation list for a specific dining
+      parameters:
+        - name: id
+          in: path
+          description: Dining ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    post:
+      summary: Create a reservation for a specific dining
+      parameters:
+        - name: id
+          in: path
+          description: Dining ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Reservation information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        '200':
+          description: OK
+  /dining/{id}/reservation/{reservation_id}:
+    get:
+      summary: Get detailed information about a specific reservation
+      parameters:
+        - name: id
+          in: path
+          description: Dining ID
+          required: true
+          schema:
+            type: string
+        - name: reservation_id
+          in: path
+          description: Reservation ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+    patch:
+      summary: Update information for a specific reservation
+      parameters:
+        - name: id
+          in: path
+          description: Dining ID
+          required: true
+          schema:
+            type: string
+        - name: reservation_id
+          in: path
+          description: Reservation ID
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Updated reservation information
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        '200':
+          description: OK
+    delete:
+      summary: Delete a specific reservation
+      parameters:
+        - name: id
+          in: path
+          description: Dining ID
+          required: true
+          schema:
+            type: string
+        - name: reservation_id
+          in: path
+          description: Reservation ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /dining/reservations/{reservation_id}/accept:
+    post:
+      summary: Accept a specific reservation
+      parameters:
+        - name: reservation_id
+          in: path
+          description: Reservation ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+  /dining/reservations/{reservation_id}/reject:
+    post:
+      summary: Reject a specific reservation
+      parameters:
+        - name: reservation_id
+          in: path
+          description: Reservation ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+components:
+  schemas:
+    Dining:
+      type: object
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        phone:
+          type: string
+    Reservation:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        time:
+          type: string
+          format: time
+        partySize:
+          type: integer
